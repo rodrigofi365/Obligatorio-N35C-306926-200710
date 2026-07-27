@@ -73,3 +73,100 @@ export function formatCapacity(capacidad) {
 
   return capacidad === 1 ? '1 persona' : `${capacidad} personas`;
 }
+
+/**
+ * @param {string} search - Ej: "?tipo=doble".
+ * @returns {string|null}
+ */
+export function getTipoIdFromQueryString(search) {
+  const params = new URLSearchParams(search);
+  const tipoId = params.get('tipo');
+  return tipoId && tipoId.trim() !== '' ? tipoId : null;
+}
+
+/**
+ * @returns {{id: string, nombre: string}[]}
+ */
+export function listarTiposHabitacion() {
+  return Object.values(TIPOS_HABITACION).map(({ id, nombre }) => ({ id, nombre }));
+}
+
+export const METODOS_PAGO = ['tarjeta', 'transferencia', 'efectivo'];
+
+/**
+ * @param {string} valor
+ * @returns {string|null} Mensaje de error, o null si es válido.
+ */
+export function validarNombre(valor) {
+  const limpio = (valor ?? '').trim();
+  if (limpio === '') return 'Ingresá tu nombre completo';
+  if (limpio.length > 80) return 'Máximo 80 caracteres';
+  return null;
+}
+
+/**
+ * @param {string} valor
+ * @returns {string|null}
+ */
+export function validarEmail(valor) {
+  const limpio = (valor ?? '').trim();
+  if (limpio === '') return 'Ingresá tu mail';
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(limpio)) return 'Ingresá un mail válido';
+  return null;
+}
+
+/**
+ * @param {string} valor
+ * @returns {string|null}
+ */
+export function validarTelefono(valor) {
+  const limpio = (valor ?? '').trim();
+  if (limpio === '') return 'Ingresá tu teléfono';
+  if (!/^\d{8,15}$/.test(limpio)) return 'Solo dígitos, entre 8 y 15';
+  return null;
+}
+
+/**
+ * @param {string} valor - Fecha en formato yyyy-mm-dd.
+ * @param {Date} [hoy]
+ * @returns {string|null}
+ */
+export function validarCheckIn(valor, hoy = new Date()) {
+  if (!valor) return 'Ingresá la fecha de check-in';
+  const fecha = new Date(`${valor}T00:00:00`);
+  const hoySinHora = new Date(hoy.getFullYear(), hoy.getMonth(), hoy.getDate());
+  if (fecha < hoySinHora) return 'No se permiten fechas pasadas';
+  return null;
+}
+
+/**
+ * @param {string} valor - Fecha de check-out en formato yyyy-mm-dd.
+ * @param {string} checkIn - Fecha de check-in en formato yyyy-mm-dd.
+ * @returns {string|null}
+ */
+export function validarCheckOut(valor, checkIn) {
+  if (!valor) return 'Ingresá la fecha de check-out';
+  if (!checkIn) return null;
+  const checkInDate = new Date(`${checkIn}T00:00:00`);
+  const checkOutDate = new Date(`${valor}T00:00:00`);
+  if (checkOutDate <= checkInDate) return 'Debe ser posterior al check-in';
+  return null;
+}
+
+/**
+ * @param {string} valor
+ * @returns {string|null}
+ */
+export function validarHabitacion(valor) {
+  if (!valor || !getTipoHabitacion(valor)) return 'Seleccioná un tipo de habitación';
+  return null;
+}
+
+/**
+ * @param {string} valor
+ * @returns {string|null}
+ */
+export function validarMetodoPago(valor) {
+  if (!METODOS_PAGO.includes(valor)) return 'Seleccioná un método de pago';
+  return null;
+}

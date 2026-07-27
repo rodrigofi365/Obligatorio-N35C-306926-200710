@@ -1,14 +1,9 @@
-import { getTipoHabitacion, formatPrice, formatCapacity } from './core/reservas.js';
-
-/**
- * @param {string} search - Ej: "?tipo=doble".
- * @returns {string|null}
- */
-export function getTipoIdFromQueryString(search) {
-  const params = new URLSearchParams(search);
-  const tipoId = params.get('tipo');
-  return tipoId && tipoId.trim() !== '' ? tipoId : null;
-}
+import {
+  getTipoHabitacion,
+  formatPrice,
+  formatCapacity,
+  getTipoIdFromQueryString,
+} from './core/reservas.js';
 
 function buildAmenityListItem(doc, comodidad) {
   const item = doc.createElement('li');
@@ -60,6 +55,11 @@ export function renderRoomDetail(doc, tipo) {
   tipo.comodidades.forEach((comodidad) => {
     amenitiesList.appendChild(buildAmenityListItem(doc, comodidad));
   });
+
+  const cta = doc.getElementById('room-detail-cta');
+  if (cta) {
+    cta.href = `reserva.html?tipo=${tipo.id}`;
+  }
 }
 
 function init(doc = document, search = window.location.search) {
