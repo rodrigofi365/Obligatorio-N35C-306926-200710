@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Panel administradora · Las Gaviotas</title>
+  <meta name="description" content="Panel de reservas del Hotel Las Gaviotas." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="site-header__inner">
+      <a href="index.html" class="brand" aria-label="Las Gaviotas, ir al inicio">
+        <svg class="brand__icon" viewBox="0 0 48 24" aria-hidden="true" focusable="false">
+          <path d="M2 18 C 10 6, 14 6, 24 14 C 34 6, 38 6, 46 18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+        </svg>
+        <span class="brand__name">Las Gaviotas</span>
+      </a>
+      <button type="button" class="admin-logout" id="cerrar-sesion">Cerrar sesión</button>
+    </div>
+  </header>
+
+  <main>
+    <div class="admin-panel-page">
+      <div class="admin-panel-page__toolbar">
+        <h1 class="admin-panel-page__heading">Reservas recibidas</h1>
+        <button type="button" class="admin-panel-page__download" id="descargar-listado">Descargar listado</button>
+      </div>
+
+      <div class="admin-table-wrapper">
+        <table class="admin-table" id="tabla-reservas">
+          <thead>
+            <tr>
+              <th scope="col">Huésped</th>
+              <th scope="col">Check-in</th>
+              <th scope="col">Check-out</th>
+              <th scope="col">Habitación</th>
+              <th scope="col"><span class="sr-only">Acciones</span></th>
+            </tr>
+          </thead>
+          <tbody id="tabla-reservas-body">
+          </tbody>
+        </table>
+
+        <p class="admin-table__empty" id="tabla-reservas-vacia" hidden>
+          Todavía no hay reservas cargadas.
+        </p>
+      </div>
+
+      <p class="admin-panel-page__hint">Login: usuario y contraseña "hotel"</p>
+    </div>
+  </main>
+
+  <!-- Diálogo de confirmación de cancelación (Historia 8) -->
+  <div class="confirm-dialog-overlay" id="cancelar-overlay" hidden>
+    <div class="confirm-dialog" role="alertdialog" aria-modal="true" aria-labelledby="cancelar-dialog-title">
+      <p id="cancelar-dialog-title">
+        ¿Confirmar cancelación? Recordá comunicarte telefónicamente con el huésped.
+      </p>
+      <div class="confirm-dialog__actions">
+        <button type="button" class="confirm-dialog__secondary" id="cancelar-volver">Volver</button>
+        <button type="button" class="confirm-dialog__primary" id="cancelar-confirmar">Cancelar reserva</button>
+      </div>
+    </div>
+  </div>
+
+  <footer class="site-footer">
+    <div class="site-footer__inner">
+      <div class="site-footer__brand">
+        <p class="site-footer__name">Las Gaviotas</p>
+        <p class="site-footer__tagline">Hotel de categoría económica media</p>
+      </div>
+
+      <nav class="site-footer__nav" aria-label="Navegación de pie de página">
+        <ul>
+          <li><a href="index.html#habitaciones">Habitaciones</a></li>
+          <li><a href="index.html#opiniones">Opiniones</a></li>
+          <li><a href="index.html#contacto">Contacto</a></li>
+        </ul>
+      </nav>
+
+      <div class="site-footer__contact">
+        <a href="tel:+59822334455">Tel: +598 22 334 455</a>
+        <a href="mailto:contacto@lasgaviotas.com">Mail: contacto@lasgaviotas.com</a>
+      </div>
+    </div>
+
+    <p class="site-footer__copyright" id="copyright">© 2026 Hotel Las Gaviotas</p>
+  </footer>
+
+  <script src="vendor/jspdf.umd.min.js"></script>
+  <script type="module" src="src/panel.js"></script>
+</body>
+</html>

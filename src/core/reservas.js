@@ -170,3 +170,130 @@ export function validarMetodoPago(valor) {
   if (!METODOS_PAGO.includes(valor)) return 'Seleccioná un método de pago';
   return null;
 }
+
+export const RESERVAS_STORAGE_KEY = 'reservas';
+
+const METODO_PAGO_ETIQUETAS = {
+  tarjeta: 'Tarjeta',
+  transferencia: 'Transferencia',
+  efectivo: 'Efectivo',
+};
+
+/**
+ * Devuelve la etiqueta legible de un método de pago.
+ * @param {string} metodoPago
+ * @returns {string} Ej: "Tarjeta". Si no se reconoce, devuelve el valor original.
+ */
+export function formatMetodoPago(metodoPago) {
+  return METODO_PAGO_ETIQUETAS[metodoPago] ?? metodoPago ?? '';
+}
+
+/**
+ * Construye el objeto reserva a partir de los valores del formulario.
+ * No valida: se asume que los valores ya pasaron la validación.
+ * @param {object} valores
+ * @param {() => string} [generarId] - Generador de id (inyectable para tests).
+ * @returns {object} Reserva lista para persistir.
+ */
+export function crearReserva(valores, generarId = () => Date.now().toString(36)) {
+  const tipo = getTipoHabitacion(valores.habitacion);
+  return {
+    id: generarId(),
+    nombre: (valores.nombre ?? '').trim(),
+    mail: (valores.mail ?? '').trim(),
+    telefono: (valores.telefono ?? '').trim(),
+    checkin: valores.checkin ?? '',
+    checkout: valores.checkout ?? '',
+    habitacion: valores.habitacion ?? '',
+    habitacionNombre: tipo ? tipo.nombre : (valores.habitacion ?? ''),
+    servicioExtra: (valores.servicioExtra ?? '').trim(),
+    metodoPago: valores.metodoPago ?? '',
+    creadaEn: new Date().toISOString(),
+  };
+}
+
+/**
+ * Lee las reservas persistidas en el storage.
+ * @param {Storage} [storage] - localStorage o un stub para tests.
+ * @returns {object[]} Arreglo de reservas (vacío si no hay o si el dato está corrupto).
+ */
+export function leerReservas(storage = window.localStorage) {
+  const crudo = storage.getItem(RESERVAS_STORAGE_KEY);
+  if (!crudo) return [];
+  try {
+    const parseado = JSON.parse(crudo);
+    return Array.isArray(parseado) ? parseado : [];
+  } catch {
+    return [];
+  }
+}
+
+/**
+ * Agrega una reserva al storage bajo la clave "reservas", preservando las existentes.
+ * @param {object} reserva
+ * @param {Storage} [storage] - localStorage o un stub para tests.
+ * @returns {object[]} El arreglo completo de reservas ya persistido.
+ */
+export function guardarReserva(reserva, storage = window.localStorage) {
+  const reservas = leerReservas(storage);
+  reservas.push(reserva);
+  storage.setItem(RESERVAS_STORAGE_KEY, JSON.stringify(reservas));
+  return reservas;
+}
+
+/**
+ * Construye los textos de solo lectura que se muestran en la pantalla
+ * de confirmación, a partir de una reserva ya creada.
+ * @param {object} reserva - Objeto devuelto por crearReserva().
+ * @returns {{nombre: string, fechas: string, habitacion: string, metodoPago: string}}
+ */
+export function construirResumen(reserva) {
+  return {
+    nombre: reserva.nombre || '—',
+    fechas: `${reserva.checkin || '—'} / ${reserva.checkout || '—'}`,
+    habitacion: reserva.habitacionNombre || '—',
+    metodoPago: formatMetodoPago(reserva.metodoPago) || '—',
+  };
+}
+
+export const ADMIN_CREDENCIALES = { usuario: 'hotel', contrasena: 'hotel' };
+export const ADMIN_SESSION_KEY = 'adminSesion';
+
+/**
+ * Valida las credenciales de la administradora contra el valor fijo del cliente.
+ * @param {string} usuario
+ * @param {string} contrasena
+ * @returns {boolean}
+ */
+export function validarCredenciales(usuario, contrasena) {
+  return (
+    (usuario ?? '').trim() === ADMIN_CREDENCIALES.usuario &&
+    (contrasena ?? '') === ADMIN_CREDENCIALES.contrasena
+  );
+}
+
+/**
+ * Formatea una reserva como fila de tabla para el panel de administradora.
+ * @param {object} reserva
+ * @returns {{huesped: string, checkin: string, checkout: string, habitacion: string}}
+ */
+export function formatFilaReserva(reserva) {
+  return {
+    huesped: reserva.nombre || '—',
+    checkin: reserva.checkin || '—',
+    checkout: reserva.checkout || '—',
+    habitacion: reserva.habitacionNombre || reserva.habitacion || '—',
+  };
+}
+
+/**
+ * Elimina una reserva del storage por id.
+ * @param {string} id
+ * @param {Storage} [storage]
+ * @returns {object[]} El arreglo de reservas restante, ya persistido.
+ */
+export function eliminarReserva(id, storage = window.localStorage) {
+  const restantes = leerReservas(storage).filter((r) => r.id !== id);
+  storage.setItem(RESERVAS_STORAGE_KEY, JSON.stringify(restantes));
+  return restantes;
+}

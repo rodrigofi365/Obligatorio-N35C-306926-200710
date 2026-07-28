@@ -9,6 +9,9 @@ import {
   listarTiposHabitacion,
   getTipoIdFromQueryString,
   getTipoHabitacion,
+  crearReserva,
+  guardarReserva,
+  construirResumen,
 } from './core/reservas.js';
 
 function leerValores(form) {
@@ -124,8 +127,18 @@ function init(doc = document, search = window.location.search) {
       return;
     }
 
+    const reserva = crearReserva(leerValores(form));
+    guardarReserva(reserva);
+
+    const resumen = construirResumen(reserva);
+    doc.getElementById('resumen-nombre').textContent = resumen.nombre;
+    doc.getElementById('resumen-fechas').textContent = resumen.fechas;
+    doc.getElementById('resumen-habitacion').textContent = resumen.habitacion;
+    doc.getElementById('resumen-metodo-pago').textContent = resumen.metodoPago;
+
     form.hidden = true;
     successMsg.hidden = false;
+    successMsg.scrollIntoView({ behavior: 'smooth', block: 'center' });
   });
 
   actualizar();

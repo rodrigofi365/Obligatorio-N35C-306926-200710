@@ -709,10 +709,268 @@ ul {
   background: var(--color-teal);
 }
 
-.reservation-page__success {
-  padding: var(--space-2);
-  border-radius: var(--radius);
-  background: var(--color-sand);
+.confirmation {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: var(--space-3);
+  padding: var(--space-4) 0;
+}
+
+.confirmation[hidden] {
+  display: none !important;
+}
+
+.confirmation__icon {
+  display: inline-flex;
   color: var(--color-navy);
+}
+
+.confirmation__icon svg {
+  width: 72px;
+  height: 72px;
+}
+
+.confirmation__title {
+  color: var(--color-navy);
+  margin: 0;
+}
+
+.confirmation__summary {
+  width: 100%;
+  max-width: 32rem;
+  margin: 0;
+  padding: var(--space-3);
+  border: 1px solid var(--color-sand);
+  border-radius: var(--radius);
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.confirmation__row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1);
+}
+
+.confirmation__row dt {
+  font-weight: 600;
+  color: var(--color-navy);
+  margin: 0;
+}
+
+.confirmation__row dd {
+  margin: 0;
+  color: var(--color-ink);
+}
+
+/* Panel administradora: badge en el header */
+.admin-badge {
+  color: #6b7a82;
+  font-size: 0.9rem;
+}
+
+/* Login administradora */
+.admin-login-page {
+  max-width: var(--max-width);
+  margin-inline: auto;
+  padding: var(--space-5) var(--space-3);
+  display: flex;
+  justify-content: center;
+}
+
+.admin-login-card {
+  width: 100%;
+  max-width: 26rem;
+  border: 1px solid #e4ddcd;
+  border-radius: var(--radius);
+  padding: var(--space-4);
+}
+
+.admin-login-card__heading {
+  text-align: center;
+  font-size: 1.4rem;
+  margin-bottom: var(--space-3);
+}
+
+.admin-login-card__submit {
+  display: block;
+  width: 100%;
+  padding: var(--space-2);
+  border: none;
+  border-radius: var(--radius);
+  background: var(--color-navy);
+  color: var(--color-white);
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.admin-login-card__submit:hover {
+  background: var(--color-teal);
+}
+
+/* Panel administradora: tabla de reservas */
+.admin-logout {
+  background: none;
+  border: none;
+  color: #6b7a82;
+  font: inherit;
+  font-size: 0.9rem;
+  cursor: pointer;
+  padding: 0;
+}
+
+.admin-logout:hover {
+  color: var(--color-teal);
+  text-decoration: underline;
+}
+
+.admin-panel-page {
+  max-width: var(--max-width);
+  margin-inline: auto;
+  padding: var(--space-4) var(--space-3) var(--space-5);
+}
+
+.admin-panel-page__toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin-bottom: var(--space-3);
+}
+
+.admin-panel-page__heading {
+  font-size: 1.5rem;
+}
+
+.admin-panel-page__download {
+  padding: 0.6rem var(--space-3);
+  border: 1px solid #e4ddcd;
+  border-radius: var(--radius);
+  background: var(--color-white);
+  font: inherit;
   font-weight: 500;
+  cursor: pointer;
+}
+
+.admin-panel-page__download:hover {
+  border-color: var(--color-teal);
+  color: var(--color-teal);
+}
+
+.admin-panel-page__hint {
+  margin-top: var(--space-3);
+  font-size: 0.85rem;
+  color: #6b7a82;
+}
+
+.admin-table-wrapper {
+  overflow-x: auto;
+}
+
+.admin-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.admin-table th,
+.admin-table td {
+  text-align: left;
+  padding: var(--space-2);
+  border-bottom: 1px solid #e4ddcd;
+  white-space: nowrap;
+}
+
+.admin-table th {
+  color: var(--color-navy);
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.admin-table__cancel {
+  background: none;
+  border: none;
+  color: var(--color-coral);
+  font: inherit;
+  cursor: pointer;
+  padding: 0;
+}
+
+.admin-table__cancel:hover {
+  text-decoration: underline;
+}
+
+.admin-table__empty {
+  padding: var(--space-3) 0;
+  color: #6b7a82;
+}
+
+/* Modal de confirmación de cancelación */
+.confirm-dialog-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(27, 58, 75, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-3);
+  z-index: 10;
+}
+
+.confirm-dialog-overlay[hidden] {
+  display: none !important;
+}
+
+.confirm-dialog {
+  background: var(--color-white);
+  border-radius: var(--radius);
+  padding: var(--space-4);
+  max-width: 26rem;
+  width: 100%;
+  box-shadow: 0 10px 30px rgba(27, 58, 75, 0.25);
+}
+
+.confirm-dialog p {
+  margin: 0 0 var(--space-3);
+  color: var(--color-ink);
+}
+
+.confirm-dialog__actions {
+  display: flex;
+  gap: var(--space-2);
+}
+
+.confirm-dialog__secondary,
+.confirm-dialog__primary {
+  flex: 1;
+  padding: 0.7rem var(--space-2);
+  border-radius: var(--radius);
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.confirm-dialog__secondary {
+  background: var(--color-white);
+  border: 1px solid #e4ddcd;
+  color: var(--color-ink);
+}
+
+.confirm-dialog__secondary:hover {
+  border-color: var(--color-teal);
+}
+
+.confirm-dialog__primary {
+  background: var(--color-navy);
+  border: none;
+  color: var(--color-white);
+}
+
+.confirm-dialog__primary:hover {
+  background: var(--color-coral);
 }
