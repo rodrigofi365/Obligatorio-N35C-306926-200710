@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ingreso administradora · Las Gaviotas</title>
+  <meta name="description" content="Acceso para la administradora del Hotel Las Gaviotas." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="site-header__inner">
+      <a href="index.html" class="brand" aria-label="Las Gaviotas, ir al inicio">
+        <svg class="brand__icon" viewBox="0 0 48 24" aria-hidden="true" focusable="false">
+          <path d="M2 18 C 10 6, 14 6, 24 14 C 34 6, 38 6, 46 18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+        </svg>
+        <span class="brand__name">Las Gaviotas</span>
+      </a>
+      <span class="admin-badge">Panel administradora</span>
+    </div>
+  </header>
+
+  <main>
+    <div class="admin-login-page">
+      <div class="admin-login-card">
+        <h1 class="admin-login-card__heading">Ingreso administradora</h1>
+
+        <form id="admin-login-form" novalidate>
+          <div class="form-field">
+            <label class="sr-only" for="usuario">Usuario</label>
+            <input type="text" id="usuario" name="usuario" placeholder="Usuario" autocomplete="username" required />
+          </div>
+
+          <div class="form-field">
+            <label class="sr-only" for="contrasena">Contraseña</label>
+            <input type="password" id="contrasena" name="contrasena" placeholder="Contraseña" autocomplete="current-password" required />
+          </div>
+
+          <p class="form-error" id="admin-login-error" role="alert"></p>
+
+          <button type="submit" class="admin-login-card__submit">Ingresar</button>
+        </form>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="site-footer__inner">
+      <div class="site-footer__brand">
+        <p class="site-footer__name">Las Gaviotas</p>
+        <p class="site-footer__tagline">Hotel de categoría económica media</p>
+      </div>
+
+      <nav class="site-footer__nav" aria-label="Navegación de pie de página">
+        <ul>
+          <li><a href="index.html#habitaciones">Habitaciones</a></li>
+          <li><a href="index.html#opiniones">Opiniones</a></li>
+          <li><a href="index.html#contacto">Contacto</a></li>
+        </ul>
+      </nav>
+
+      <div class="site-footer__contact">
+        <a href="tel:+59822334455">Tel: +598 22 334 455</a>
+        <a href="mailto:contacto@lasgaviotas.com">Mail: contacto@lasgaviotas.com</a>
+      </div>
+    </div>
+
+    <p class="site-footer__copyright" id="copyright">© 2026 Hotel Las Gaviotas</p>
+  </footer>
+
+  <script type="module" src="src/admin-login.js"></script>
+</body>
+</html>
