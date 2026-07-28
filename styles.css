@@ -623,7 +623,8 @@ ul {
   grid-template-columns: 1fr 1fr;
   gap: var(--space-2);
 }
-
+#admin-login-form input[type="text"],
+#admin-login-form input[type="password"],
 #reserva-form input[type="text"],
 #reserva-form input[type="email"],
 #reserva-form input[type="tel"],
