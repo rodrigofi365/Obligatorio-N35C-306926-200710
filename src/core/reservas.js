@@ -267,7 +267,7 @@ export const ADMIN_SESSION_KEY = 'adminSesion';
  */
 export function validarCredenciales(usuario, contrasena) {
   return (
-    (usuario ?? '').trim() === ADMIN_CREDENCIALES.usuario &&
+    (usuario ?? '').trim().toLowerCase() === ADMIN_CREDENCIALES.usuario.toLowerCase() &&
     (contrasena ?? '') === ADMIN_CREDENCIALES.contrasena
   );
 }
