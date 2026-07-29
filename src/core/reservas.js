@@ -256,7 +256,7 @@ export function construirResumen(reserva) {
   };
 }
 
-export const ADMIN_CREDENCIALES = { usuario: 'hotel', contrasena: 'hotel' };
+export const ADMIN_CREDENCIALES = { usuario: 'carolina', contrasena: 'hotel' };
 export const ADMIN_SESSION_KEY = 'adminSesion';
 
 /**
