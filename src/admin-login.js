@@ -1,5 +1,3 @@
-import { validarCredenciales, ADMIN_SESSION_KEY } from './core/reservas.js';
-
 /**
  * @param {Document} doc
  * @param {Window['location']} location

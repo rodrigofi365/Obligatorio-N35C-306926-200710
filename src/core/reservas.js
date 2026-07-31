@@ -5,7 +5,7 @@ const COMODIDADES_BASE = [
   { id: 'balcon', abreviatura: 'B', etiqueta: 'Balcón' },
 ];
 
-export const TIPOS_HABITACION = {
+const TIPOS_HABITACION = {
   individual: {
     id: 'individual',
     nombre: 'Individual',
@@ -45,7 +45,7 @@ export const TIPOS_HABITACION = {
  * @returns {string} Ej: "$ 3.200 / noche"
  * @throws {TypeError} Si monto no es un número finito.
  */
-export function formatPrice(monto) {
+function formatPrice(monto) {
   if (typeof monto !== 'number' || !Number.isFinite(monto)) {
     throw new TypeError('monto debe ser un número finito');
   }
@@ -57,7 +57,7 @@ export function formatPrice(monto) {
  * @param {string} tipoId
  * @returns {object|null}
  */
-export function getTipoHabitacion(tipoId) {
+function getTipoHabitacion(tipoId) {
   return TIPOS_HABITACION[tipoId] ?? null;
 }
 
@@ -66,7 +66,7 @@ export function getTipoHabitacion(tipoId) {
  * @returns {string} Ej: "1 persona" | "2 personas"
  * @throws {TypeError} Si capacidad no es un número mayor a 0.
  */
-export function formatCapacity(capacidad) {
+function formatCapacity(capacidad) {
   if (typeof capacidad !== 'number' || !Number.isFinite(capacidad) || capacidad <= 0) {
     throw new TypeError('capacidad debe ser un número mayor a 0');
   }
@@ -78,7 +78,7 @@ export function formatCapacity(capacidad) {
  * @param {string} search - Ej: "?tipo=doble".
  * @returns {string|null}
  */
-export function getTipoIdFromQueryString(search) {
+function getTipoIdFromQueryString(search) {
   const params = new URLSearchParams(search);
   const tipoId = params.get('tipo');
   return tipoId && tipoId.trim() !== '' ? tipoId : null;
@@ -87,17 +87,17 @@ export function getTipoIdFromQueryString(search) {
 /**
  * @returns {{id: string, nombre: string}[]}
  */
-export function listarTiposHabitacion() {
+function listarTiposHabitacion() {
   return Object.values(TIPOS_HABITACION).map(({ id, nombre }) => ({ id, nombre }));
 }
 
-export const METODOS_PAGO = ['tarjeta', 'transferencia', 'efectivo'];
+const METODOS_PAGO = ['tarjeta', 'transferencia', 'efectivo'];
 
 /**
  * @param {string} valor
  * @returns {string|null} Mensaje de error, o null si es válido.
  */
-export function validarNombre(valor) {
+function validarNombre(valor) {
   const limpio = (valor ?? '').trim();
   if (limpio === '') return 'Ingresá tu nombre completo';
   if (limpio.length > 80) return 'Máximo 80 caracteres';
@@ -108,7 +108,7 @@ export function validarNombre(valor) {
  * @param {string} valor
  * @returns {string|null}
  */
-export function validarEmail(valor) {
+function validarEmail(valor) {
   const limpio = (valor ?? '').trim();
   if (limpio === '') return 'Ingresá tu mail';
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(limpio)) return 'Ingresá un mail válido';
@@ -119,7 +119,7 @@ export function validarEmail(valor) {
  * @param {string} valor
  * @returns {string|null}
  */
-export function validarTelefono(valor) {
+function validarTelefono(valor) {
   const limpio = (valor ?? '').trim();
   if (limpio === '') return 'Ingresá tu teléfono';
   if (!/^\d{8,15}$/.test(limpio)) return 'Solo dígitos, entre 8 y 15';
@@ -131,7 +131,7 @@ export function validarTelefono(valor) {
  * @param {Date} [hoy]
  * @returns {string|null}
  */
-export function validarCheckIn(valor, hoy = new Date()) {
+function validarCheckIn(valor, hoy = new Date()) {
   if (!valor) return 'Ingresá la fecha de check-in';
   const fecha = new Date(`${valor}T00:00:00`);
   const hoySinHora = new Date(hoy.getFullYear(), hoy.getMonth(), hoy.getDate());
@@ -144,7 +144,7 @@ export function validarCheckIn(valor, hoy = new Date()) {
  * @param {string} checkIn - Fecha de check-in en formato yyyy-mm-dd.
  * @returns {string|null}
  */
-export function validarCheckOut(valor, checkIn) {
+function validarCheckOut(valor, checkIn) {
   if (!valor) return 'Ingresá la fecha de check-out';
   if (!checkIn) return null;
   const checkInDate = new Date(`${checkIn}T00:00:00`);
@@ -157,7 +157,7 @@ export function validarCheckOut(valor, checkIn) {
  * @param {string} valor
  * @returns {string|null}
  */
-export function validarHabitacion(valor) {
+function validarHabitacion(valor) {
   if (!valor || !getTipoHabitacion(valor)) return 'Seleccioná un tipo de habitación';
   return null;
 }
@@ -166,12 +166,12 @@ export function validarHabitacion(valor) {
  * @param {string} valor
  * @returns {string|null}
  */
-export function validarMetodoPago(valor) {
+function validarMetodoPago(valor) {
   if (!METODOS_PAGO.includes(valor)) return 'Seleccioná un método de pago';
   return null;
 }
 
-export const RESERVAS_STORAGE_KEY = 'reservas';
+const RESERVAS_STORAGE_KEY = 'reservas';
 
 const METODO_PAGO_ETIQUETAS = {
   tarjeta: 'Tarjeta',
@@ -184,7 +184,7 @@ const METODO_PAGO_ETIQUETAS = {
  * @param {string} metodoPago
  * @returns {string} Ej: "Tarjeta". Si no se reconoce, devuelve el valor original.
  */
-export function formatMetodoPago(metodoPago) {
+function formatMetodoPago(metodoPago) {
   return METODO_PAGO_ETIQUETAS[metodoPago] ?? metodoPago ?? '';
 }
 
@@ -195,7 +195,7 @@ export function formatMetodoPago(metodoPago) {
  * @param {() => string} [generarId] - Generador de id (inyectable para tests).
  * @returns {object} Reserva lista para persistir.
  */
-export function crearReserva(valores, generarId = () => Date.now().toString(36)) {
+function crearReserva(valores, generarId = () => Date.now().toString(36)) {
   const tipo = getTipoHabitacion(valores.habitacion);
   return {
     id: generarId(),
@@ -217,7 +217,7 @@ export function crearReserva(valores, generarId = () => Date.now().toString(36))
  * @param {Storage} [storage] - localStorage o un stub para tests.
  * @returns {object[]} Arreglo de reservas (vacío si no hay o si el dato está corrupto).
  */
-export function leerReservas(storage = window.localStorage) {
+function leerReservas(storage = window.localStorage) {
   const crudo = storage.getItem(RESERVAS_STORAGE_KEY);
   if (!crudo) return [];
   try {
@@ -234,7 +234,7 @@ export function leerReservas(storage = window.localStorage) {
  * @param {Storage} [storage] - localStorage o un stub para tests.
  * @returns {object[]} El arreglo completo de reservas ya persistido.
  */
-export function guardarReserva(reserva, storage = window.localStorage) {
+function guardarReserva(reserva, storage = window.localStorage) {
   const reservas = leerReservas(storage);
   reservas.push(reserva);
   storage.setItem(RESERVAS_STORAGE_KEY, JSON.stringify(reservas));
@@ -247,7 +247,7 @@ export function guardarReserva(reserva, storage = window.localStorage) {
  * @param {object} reserva - Objeto devuelto por crearReserva().
  * @returns {{nombre: string, fechas: string, habitacion: string, metodoPago: string}}
  */
-export function construirResumen(reserva) {
+function construirResumen(reserva) {
   return {
     nombre: reserva.nombre || '—',
     fechas: `${reserva.checkin || '—'} / ${reserva.checkout || '—'}`,
@@ -256,8 +256,8 @@ export function construirResumen(reserva) {
   };
 }
 
-export const ADMIN_CREDENCIALES = { usuario: 'carolina', contrasena: 'hotel' };
-export const ADMIN_SESSION_KEY = 'adminSesion';
+const ADMIN_CREDENCIALES = { usuario: 'carolina', contrasena: 'hotel' };
+const ADMIN_SESSION_KEY = 'adminSesion';
 
 /**
  * Valida las credenciales de la administradora contra el valor fijo del cliente.
@@ -265,7 +265,7 @@ export const ADMIN_SESSION_KEY = 'adminSesion';
  * @param {string} contrasena
  * @returns {boolean}
  */
-export function validarCredenciales(usuario, contrasena) {
+function validarCredenciales(usuario, contrasena) {
   return (
     (usuario ?? '').trim().toLowerCase() === ADMIN_CREDENCIALES.usuario.toLowerCase() &&
     (contrasena ?? '') === ADMIN_CREDENCIALES.contrasena
@@ -277,7 +277,7 @@ export function validarCredenciales(usuario, contrasena) {
  * @param {object} reserva
  * @returns {{huesped: string, checkin: string, checkout: string, habitacion: string}}
  */
-export function formatFilaReserva(reserva) {
+function formatFilaReserva(reserva) {
   return {
     huesped: reserva.nombre || '—',
     checkin: reserva.checkin || '—',
@@ -292,8 +292,43 @@ export function formatFilaReserva(reserva) {
  * @param {Storage} [storage]
  * @returns {object[]} El arreglo de reservas restante, ya persistido.
  */
-export function eliminarReserva(id, storage = window.localStorage) {
+function eliminarReserva(id, storage = window.localStorage) {
   const restantes = leerReservas(storage).filter((r) => r.id !== id);
   storage.setItem(RESERVAS_STORAGE_KEY, JSON.stringify(restantes));
   return restantes;
+}
+
+/*
+  Este bloque SOLO se ejecuta en Jest (Node)
+  En el navegador, `module` no existe, así que se ignora
+  Permite que el mismo archivo funcione en navegador y en Jest
+*/
+if (typeof module !== "undefined") {
+  module.exports = {
+    TIPOS_HABITACION,
+    formatPrice,
+    getTipoHabitacion,
+    formatCapacity,
+    getTipoIdFromQueryString,
+    listarTiposHabitacion,
+    METODOS_PAGO,
+    validarNombre,
+    validarEmail,
+    validarTelefono,
+    validarCheckIn,
+    validarCheckOut,
+    validarHabitacion,
+    validarMetodoPago,
+    RESERVAS_STORAGE_KEY,
+    formatMetodoPago,
+    crearReserva,
+    leerReservas,
+    guardarReserva,
+    construirResumen,
+    ADMIN_CREDENCIALES,
+    ADMIN_SESSION_KEY,
+    validarCredenciales,
+    formatFilaReserva,
+    eliminarReserva,
+  };
 }

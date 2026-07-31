@@ -1,19 +1,3 @@
-import {
-  validarNombre,
-  validarEmail,
-  validarTelefono,
-  validarCheckIn,
-  validarCheckOut,
-  validarHabitacion,
-  validarMetodoPago,
-  listarTiposHabitacion,
-  getTipoIdFromQueryString,
-  getTipoHabitacion,
-  crearReserva,
-  guardarReserva,
-  construirResumen,
-} from './core/reservas.js';
-
 function leerValores(form) {
   return {
     nombre: form.nombre.value,

@@ -1,0 +1,12 @@
+{
+  "name": "las-gaviotas",
+  "version": "1.0.0",
+  "description": "Hotel Las Gaviotas - sistema de reservas (Obligatorio N35C)",
+  "private": true,
+  "scripts": {
+    "test": "jest"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0"
+  }
+}

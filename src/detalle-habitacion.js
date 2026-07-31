@@ -1,10 +1,3 @@
-import {
-  getTipoHabitacion,
-  formatPrice,
-  formatCapacity,
-  getTipoIdFromQueryString,
-} from './core/reservas.js';
-
 function buildAmenityListItem(doc, comodidad) {
   const item = doc.createElement('li');
   item.className = 'room-detail__amenity';

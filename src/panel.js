@@ -1,10 +1,3 @@
-import {
-  leerReservas,
-  formatFilaReserva,
-  eliminarReserva,
-  ADMIN_SESSION_KEY,
-} from './core/reservas.js';
-
 /**
  * @param {object[]} reservas
  * @returns {string} Texto plano tabulado, listo para armar el PDF o para debug.
