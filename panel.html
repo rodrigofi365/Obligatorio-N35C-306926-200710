@@ -35,10 +35,14 @@
         <table class="admin-table" id="tabla-reservas">
           <thead>
             <tr>
-              <th scope="col">Huésped</th>
-              <th scope="col">Check-in</th>
-              <th scope="col">Check-out</th>
-              <th scope="col">Habitación</th>
+              <th scope="col" title="Nombre completo">Nombre completo</th>
+              <th scope="col" title="Mail">Mail</th>
+              <th scope="col" title="Teléfono">Teléfono</th>
+              <th scope="col" title="Check-in">Check-in</th>
+              <th scope="col" title="Check-out">Check-out</th>
+              <th scope="col" title="Habitación">Habitación</th>
+              <th scope="col" title="Servicio extra">Servicio extra</th>
+              <th scope="col" title="Método de pago">Método de pago</th>
               <th scope="col"><span class="sr-only">Acciones</span></th>
             </tr>
           </thead>
@@ -91,6 +95,7 @@
   </footer>
 
   <script src="vendor/jspdf.umd.min.js"></script>
+  <script src="vendor/jspdf.plugin.autotable.min.js"></script>
   <script src="src/core/reservas.js"></script>
   <script type="module" src="src/panel.js"></script>
 </body>

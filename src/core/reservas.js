@@ -280,9 +280,13 @@ function validarCredenciales(usuario, contrasena) {
 function formatFilaReserva(reserva) {
   return {
     huesped: reserva.nombre || '—',
+    mail: reserva.mail || '—',
+    telefono: reserva.telefono || '—',
     checkin: reserva.checkin || '—',
     checkout: reserva.checkout || '—',
     habitacion: reserva.habitacionNombre || reserva.habitacion || '—',
+    servicioExtra: reserva.servicioExtra || '—',
+    metodoPago: formatMetodoPago(reserva.metodoPago) || '—',
   };
 }
 

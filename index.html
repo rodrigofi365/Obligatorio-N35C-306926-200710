@@ -20,7 +20,10 @@
         </svg>
         <span class="brand__name">Las Gaviotas</span>
       </a>
-      <div class="site-header__actions">
+      <button type="button" class="nav-toggle" aria-expanded="false" aria-controls="nav-menu" aria-label="Abrir menú">
+        <span class="nav-toggle__icon"></span>
+      </button>
+      <div class="site-header__actions" id="nav-menu">
         <nav class="main-nav" aria-label="Navegación principal">
           <ul>
             <li><a href="#habitaciones">Habitaciones</a></li>
@@ -295,6 +298,7 @@
     <p class="site-footer__copyright" id="copyright">© 2026 Hotel Las Gaviotas</p>
   </footer>
 
+  <script src="src/nav-toggle.js"></script>
   <script type="module" src="src/app.js"></script>
 </body>
 </html>

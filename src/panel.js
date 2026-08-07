@@ -9,18 +9,33 @@ export function construirFilasTexto(reservas) {
   });
 }
 
+const COLUMNAS_TABLA = [
+  { clave: 'huesped', etiqueta: 'Nombre completo' },
+  { clave: 'mail', etiqueta: 'Mail' },
+  { clave: 'telefono', etiqueta: 'Teléfono' },
+  { clave: 'checkin', etiqueta: 'Check-in' },
+  { clave: 'checkout', etiqueta: 'Check-out' },
+  { clave: 'habitacion', etiqueta: 'Habitación' },
+  { clave: 'servicioExtra', etiqueta: 'Servicio extra' },
+  { clave: 'metodoPago', etiqueta: 'Método de pago' },
+];
+
 function buildRow(doc, reserva) {
   const fila = formatFilaReserva(reserva);
   const tr = doc.createElement('tr');
   tr.dataset.id = reserva.id;
 
-  [fila.huesped, fila.checkin, fila.checkout, fila.habitacion].forEach((valor) => {
+  COLUMNAS_TABLA.forEach(({ clave, etiqueta }) => {
+    const valor = fila[clave];
     const td = doc.createElement('td');
     td.textContent = valor;
+    td.title = valor;
+    td.dataset.label = etiqueta;
     tr.appendChild(td);
   });
 
   const tdAccion = doc.createElement('td');
+  tdAccion.className = 'admin-table__action-cell';
   const btn = doc.createElement('button');
   btn.type = 'button';
   btn.className = 'admin-table__cancel';
@@ -47,29 +62,25 @@ function renderTabla(doc, reservas) {
 
 function descargarListadoPDF(doc, reservas) {
   const { jsPDF } = window.jspdf;
-  const pdf = new jsPDF();
+  const pdf = new jsPDF({ orientation: 'landscape' });
 
   pdf.setFontSize(14);
   pdf.text('Las Gaviotas - Reservas recibidas', 14, 16);
 
-  const columnas = ['Huésped', 'Check-in', 'Check-out', 'Habitación'];
+  const columnas = COLUMNAS_TABLA.map((c) => c.etiqueta);
+  const filaVacia = COLUMNAS_TABLA.map(() => '');
   const filas = reservas.map((r) => {
     const f = formatFilaReserva(r);
-    return [f.huesped, f.checkin, f.checkout, f.habitacion];
+    return COLUMNAS_TABLA.map((c) => f[c.clave]);
   });
 
-  let y = 28;
-  pdf.setFontSize(10);
-  pdf.text(columnas.join('   |   '), 14, y);
-  y += 6;
-  filas.forEach((fila) => {
-    pdf.text(fila.join('   |   '), 14, y);
-    y += 7;
+  pdf.autoTable({
+    head: [columnas],
+    body: filas.length > 0 ? filas : [['No hay reservas cargadas.', ...filaVacia.slice(1)]],
+    startY: 24,
+    styles: { fontSize: 9, cellPadding: 3 },
+    headStyles: { fillColor: [27, 58, 75] },
   });
-
-  if (filas.length === 0) {
-    pdf.text('No hay reservas cargadas.', 14, y);
-  }
 
   pdf.save('reservas-las-gaviotas.pdf');
 }
